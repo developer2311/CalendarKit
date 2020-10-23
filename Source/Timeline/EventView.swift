@@ -57,6 +57,8 @@ open class EventView: UIView {
             setNeedsLayout()
         }
         
+//        layoutPinIfNeeded()
+        
         if shouldEnableRezising {
             for (idx, handle) in eventResizeHandles.enumerated() {
               handle.tag = idx
@@ -75,6 +77,7 @@ open class EventView: UIView {
             textView.textColor = event.textColor
             textView.font = event.font
         }
+        handleFontSizeIfNeeded()
         descriptor = event
         backgroundColor = event.backgroundColor
         color = event.color
@@ -85,6 +88,13 @@ open class EventView: UIView {
         drawsShadow = event.editedEvent != nil
         setNeedsDisplay()
         setNeedsLayout()
+    }
+    
+    private func handleFontSizeIfNeeded() {
+        if self.bounds.width < (self.superview?.bounds.width ?? .zero)/3 {
+            let font = textView.font
+            textView.font = font?.withSize(10)
+        }
     }
     
     public func animateCreation() {
