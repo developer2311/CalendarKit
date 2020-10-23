@@ -87,7 +87,6 @@ public struct AllDayViewStyle {
   public var backgroundColor: UIColor = SystemColors.systemGray4
   public var allDayFont = UIFont.systemFont(ofSize: 12.0)
   public var allDayColor: UIColor = SystemColors.label
-  public var eventViewsConfiguration: EventViewConfiguration?
   public init() {}
 }
 #endif

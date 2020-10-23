@@ -34,8 +34,6 @@ public final class AllDayView: UIView {
         sv.clipsToBounds = false
         return sv
     }()
-    private var eventViewsConfiguration: EventViewConfiguration?
-    
     
     // MARK: - RETURN VALUES
     
@@ -65,7 +63,7 @@ public final class AllDayView: UIView {
         backgroundColor = style.backgroundColor
         textLabel.font = style.allDayFont
         textLabel.textColor = style.allDayColor
-        eventViewsConfiguration = newStyle.eventViewsConfiguration
+        reloadData()
     }
     
     private func configure() {
@@ -144,7 +142,7 @@ public final class AllDayView: UIView {
             
             // create event
             let eventView = EventView(frame: CGRect.zero)
-            eventView.configuration = eventViewsConfiguration
+//            eventView.configuration = eventViewsConfiguration
             eventView.updateWithDescriptor(event: anEventDescriptor)
             eventView.heightAnchor.constraint(equalToConstant: allDayEventHeight).isActive = true
             
