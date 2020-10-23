@@ -19,6 +19,7 @@ open class EventView: UIView {
     private var shouldEnableRezising = false
     private var shouldRoundCorners = true
     private var textViewHorizontalInsets: CGFloat = 15.0
+    var configuration: EventViewConfiguration?
     
     /// Resize Handle views showing up when editing the event.
     /// The top handle has a tag of `0` and the bottom has a tag of `1`
