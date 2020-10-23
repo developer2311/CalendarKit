@@ -59,8 +59,8 @@ public final class DayView: UIView, TimelinePagerViewDelegate {
             timelinePagerView.state = state
         }
     }
-    static var eventViewsConfiguration: EventViewConfiguration?
-    
+    public static var eventViewsConfiguration: EventViewConfiguration?
+
     public var calendar: Calendar = Calendar.autoupdatingCurrent
     
     private var style = CalendarStyle()

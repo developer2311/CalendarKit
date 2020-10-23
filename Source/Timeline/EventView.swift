@@ -25,8 +25,9 @@ open class EventView: UIView {
     private var textViewHorizontalInsets: CGFloat {
         return configuration?.textViewHorizontalInsets ?? .zero
     }
-    var configuration: EventViewConfiguration?
-    
+    var configuration: EventViewConfiguration? {
+        return DayView.eventViewsConfiguration
+    }
     /// Resize Handle views showing up when editing the event.
     /// The top handle has a tag of `0` and the bottom has a tag of `1`
     public lazy var eventResizeHandles = [EventResizeHandleView(), EventResizeHandleView()]
