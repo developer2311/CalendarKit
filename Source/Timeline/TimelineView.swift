@@ -523,15 +523,6 @@ public final class TimelineView: UIView {
     }
     
     //MARK: - Handle pinned events -
-    private lazy var pinImageView: UIImageView = {
-        let imageView = UIImageView(frame: CGRect(x: .zero, y: .zero, width: 20, height: 20))
-        imageView.backgroundColor = DayView.eventViewsConfiguration?.pinBackgroundColor ?? .clear
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = imageView.frame.size.height/2
-        imageView.tintColor = .white
-        return imageView
-    }()
-    
     private func layoutPinnedEventsIfNeeded() {
         for eventView in eventViews {
             layoutPinIfNeeded(for: eventView)
@@ -539,8 +530,18 @@ public final class TimelineView: UIView {
     }
     
     private func layoutPinIfNeeded(for eventView: EventView) {
+        
+        func prepareImageView() -> UIImageView {
+            let imageView = UIImageView(frame: CGRect(x: .zero, y: .zero, width: 20, height: 20))
+            imageView.backgroundColor = DayView.eventViewsConfiguration?.pinBackgroundColor ?? .clear
+            imageView.clipsToBounds = true
+            imageView.layer.cornerRadius = imageView.frame.size.height/2
+            imageView.tintColor = .white
+            return imageView
+        }
+        
         if let event = eventView.descriptor, event.isEventPinned {
-            let eventPinObject = EventPinObject(eventID: event.identifier, imageView: pinImageView)
+            let eventPinObject = EventPinObject(eventID: event.identifier, imageView: prepareImageView())
             if eventPinObject.imageView.superview == nil {
                 addSubview(eventPinObject.imageView)
                 eventPinObject.imageView.translatesAutoresizingMaskIntoConstraints = false
