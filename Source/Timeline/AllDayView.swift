@@ -34,6 +34,7 @@ public final class AllDayView: UIView {
     sv.clipsToBounds = false
     return sv
   }()
+    public var eventViewsConfiguration: EventViewConfiguration?
   
   // MARK: - RETURN VALUES
   
@@ -141,6 +142,7 @@ public final class AllDayView: UIView {
       
       // create event
       let eventView = EventView(frame: CGRect.zero)
+      eventView.configuration = eventViewsConfiguration
       eventView.updateWithDescriptor(event: anEventDescriptor)
       eventView.heightAnchor.constraint(equalToConstant: allDayEventHeight).isActive = true
       

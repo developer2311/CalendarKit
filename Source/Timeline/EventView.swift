@@ -16,9 +16,15 @@ open class EventView: UIView {
         view.isScrollEnabled = false
         return view
     }()
-    private var shouldEnableRezising = false
-    private var shouldRoundCorners = true
-    private var textViewHorizontalInsets: CGFloat = 15.0
+    private var shouldEnableRezising: Bool {
+        return configuration?.shouldEnableRezising ?? true
+    }
+    private var shouldRoundCorners: Bool {
+        return configuration?.shouldRoundCorners ?? false
+    }
+    private var textViewHorizontalInsets: CGFloat {
+        return configuration?.textViewHorizontalInsets ?? .zero
+    }
     var configuration: EventViewConfiguration?
     
     /// Resize Handle views showing up when editing the event.

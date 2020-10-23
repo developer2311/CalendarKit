@@ -2,8 +2,11 @@
 import UIKit
 
 final class EventViewConfiguration {
-    var shouldEnableRezising = false
-    var shouldRoundCorners = true
+    // - Enables ability to resize event view -
+    var shouldEnableRezising = true
+    // - Makes event view rounded -
+    var shouldRoundCorners = false
+    // - Set horizontal insets for textView inside event view. Works ! ONLY ! if shouldEnableResizing = false and shouldRoundCorners = true -
     var textViewHorizontalInsets: CGFloat = 15.0
 }
 #endif
