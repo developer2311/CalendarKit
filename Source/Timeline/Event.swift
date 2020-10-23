@@ -3,6 +3,7 @@ import UIKit
 
 public final class Event: EventDescriptor {
     
+    
     public var startDate = Date()
     public var endDate = Date()
     public var isAllDay = false
@@ -13,6 +14,7 @@ public final class Event: EventDescriptor {
             updateColors()
         }
     }
+    public var identifier: String = UUID().uuidString
     public var backgroundColor = SystemColors.systemBlue.withAlphaComponent(0.3)
     public var textColor = SystemColors.label
     public var isEventPinned: Bool = false

@@ -21,6 +21,7 @@ public final class TimelineView: UIView {
     private var currentTime: Date {
         return Date()
     }
+    private var eventPinObjects: [EventPinObject] = []
     private var eventViews = [EventView]()
     public private(set) var regularLayoutAttributes = [EventLayoutAttributes]()
     public private(set) var allDayLayoutAttributes = [EventLayoutAttributes]()
@@ -345,7 +346,10 @@ public final class TimelineView: UIView {
     
     private func layoutEvents() {
         if eventViews.isEmpty {return}
-        
+        for pin in eventPinObjects {
+            pin.imageView.removeFromSuperview()
+        }
+        eventPinObjects.removeAll()
         for (idx, attributes) in regularLayoutAttributes.enumerated() {
             let descriptor = attributes.descriptor
             let eventView = eventViews[idx]
@@ -356,6 +360,7 @@ public final class TimelineView: UIView {
                                      width: eventWidth,
                                      height: attributes.frame.height - style.eventGap)
             eventView.updateWithDescriptor(event: descriptor)
+            layoutPinIfNeeded(for: eventView)
         }
     }
     
@@ -447,7 +452,6 @@ public final class TimelineView: UIView {
             }
             eventViews.append(newView)
         }
-        layoutPinnedEventsIfNeeded()
     }
     
     public func prepareForReuse() {
@@ -535,16 +539,20 @@ public final class TimelineView: UIView {
     }
     
     private func layoutPinIfNeeded(for eventView: EventView) {
-        if pinImageView.superview == nil {
-            addSubview(pinImageView)
-            pinImageView.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                pinImageView.topAnchor.constraint(equalTo: eventView.topAnchor, constant: -pinImageView.frame.size.height/2),
-                pinImageView.trailingAnchor.constraint(equalTo: eventView.trailingAnchor, constant: pinImageView.frame.size.width/4),
-                pinImageView.widthAnchor.constraint(equalToConstant: pinImageView.frame.size.width),
-                pinImageView.heightAnchor.constraint(equalToConstant: pinImageView.frame.size.height)
-            ])
-            setNeedsLayout()
+        if let event = eventView.descriptor, event.isEventPinned {
+            let eventPinObject = EventPinObject(eventID: event.identifier, imageView: pinImageView)
+            if eventPinObject.imageView.superview == nil {
+                addSubview(eventPinObject.imageView)
+                eventPinObject.imageView.translatesAutoresizingMaskIntoConstraints = false
+                NSLayoutConstraint.activate([
+                    eventPinObject.imageView.topAnchor.constraint(equalTo: eventView.topAnchor, constant: -eventPinObject.imageView.frame.size.height/2),
+                    eventPinObject.imageView.trailingAnchor.constraint(equalTo: eventView.trailingAnchor, constant: eventPinObject.imageView.frame.size.width/4),
+                    eventPinObject.imageView.widthAnchor.constraint(equalToConstant: eventPinObject.imageView.frame.size.width),
+                    eventPinObject.imageView.heightAnchor.constraint(equalToConstant: eventPinObject.imageView.frame.size.height)
+                ])
+                setNeedsLayout()
+                eventPinObjects.append(eventPinObject)
+            }
         }
     }
 }
