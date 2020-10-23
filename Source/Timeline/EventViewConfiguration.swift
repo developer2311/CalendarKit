@@ -1,7 +1,7 @@
 #if os(iOS)
 import UIKit
 
-final class EventViewConfiguration {
+public struct EventViewConfiguration {
     // - Enables ability to resize event view -
     var shouldEnableRezising = true
     // - Makes event view rounded -
