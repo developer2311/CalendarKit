@@ -3,7 +3,7 @@ import Foundation
 import UIKit
 
 public protocol EventDescriptor: AnyObject {
-    var identifier: String {get set}
+    var identifier: Int {get set}
     var startDate: Date {get set}
     var endDate: Date {get set}
     var isAllDay: Bool {get}

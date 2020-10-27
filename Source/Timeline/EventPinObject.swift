@@ -2,13 +2,13 @@
 import UIKit
 
 public class EventPinObject {
-    public init(eventID: String, imageView: UIImageView) {
+    public init(eventID: Int, imageView: UIImageView) {
         self.eventID = eventID
         self.imageView = imageView
     }
     
-    var eventID: String = ""
-    var imageView: UIImageView = UIImageView()
+    var eventID: Int
+    var imageView: UIImageView
 }
 
 #endif

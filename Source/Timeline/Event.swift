@@ -14,7 +14,7 @@ public final class Event: EventDescriptor {
             updateColors()
         }
     }
-    public var identifier: String = UUID().uuidString
+    public var identifier: Int = -1
     public var backgroundColor = SystemColors.systemBlue.withAlphaComponent(0.3)
     public var textColor = SystemColors.label
     public var isEventPinned: Bool = false
