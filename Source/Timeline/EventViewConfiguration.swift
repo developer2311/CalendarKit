@@ -5,13 +5,15 @@ public struct EventViewConfiguration {
     public init(_ shouldEnableRezising: Bool,
                 shouldRoundCorners: Bool,
                 textViewHorizontalInsets: CGFloat = .zero,
-                eventPinBackgroundColor: UIColor = .clear) {
+                eventPinBackgroundColor: UIColor = .clear,
+                pinImage: UIImage? = nil) {
         self.shouldEnableRezising = shouldEnableRezising
         self.shouldRoundCorners = shouldRoundCorners
         if textViewHorizontalInsets != .zero {
             self.textViewHorizontalInsets = textViewHorizontalInsets
         }
         self.pinBackgroundColor = eventPinBackgroundColor
+        self.pinImage = pinImage
     }
     
     // - Enables ability to resize event view -
@@ -24,5 +26,6 @@ public struct EventViewConfiguration {
     var eventRightInset: CGFloat {
         return shouldRoundCorners ? 10.0 : .zero
     }
+    var pinImage: UIImage?
 }
 #endif
