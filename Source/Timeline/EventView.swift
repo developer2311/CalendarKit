@@ -1,6 +1,10 @@
 #if os(iOS)
 import UIKit
 
+public protocol EventViewDelegate: class {
+    func didTapCheckBox(on eventView: EventView, isChecked: Bool)
+}
+
 open class EventView: UIView {
     public var descriptor: EventDescriptor?
     public var color = SystemColors.label
@@ -8,6 +12,7 @@ open class EventView: UIView {
     public var contentHeight: CGFloat {
         return textView.frame.height
     }
+    public weak var delegate: EventViewDelegate?
     
     public lazy var textView: UITextView = {
         let view = UITextView()
@@ -16,6 +21,13 @@ open class EventView: UIView {
         view.isScrollEnabled = false
         return view
     }()
+    private var checkBoxButton: UIButton!
+    private var checkBoxEnabledImage: UIImage? {
+        return configuration?.checkBoxCheckedImage
+    }
+    private var checkBoxDisabledImage: UIImage? {
+        return configuration?.checkBoxEmptyImage
+    }
     private var shouldEnableRezising: Bool {
         return configuration?.shouldEnableRezising ?? true
     }
@@ -49,11 +61,33 @@ open class EventView: UIView {
         
         if shouldRoundCorners && !shouldEnableRezising {
             textView.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                textView.centerYAnchor.constraint(equalTo: centerYAnchor),
-                textView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: textViewHorizontalInsets),
-                textView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -textViewHorizontalInsets),
-            ])
+            var constraintsList = [NSLayoutConstraint]()
+            if let config = configuration, config.shouldIncludeCheckBox {
+                checkBoxButton = UIButton(type: .custom)
+                checkBoxButton.translatesAutoresizingMaskIntoConstraints = false
+                checkBoxButton.frame = CGRect(x: .zero, y: .zero, width: 25, height: 25)
+                checkBoxButton.imageView?.contentMode = .scaleAspectFill
+                checkBoxButton.tintColor = .white
+                checkBoxButton.clipsToBounds = true
+                checkBoxButton.layer.cornerRadius = checkBoxButton.frame.size.height / 2
+                checkBoxButton.setImage(checkBoxDisabledImage, for: .normal)
+                checkBoxButton.addTarget(self, action: #selector(didTapCheckBox(_:)), for: .touchUpInside)
+                addSubview(checkBoxButton)
+                constraintsList = [
+                    checkBoxButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+                    checkBoxButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: textViewHorizontalInsets),
+                    checkBoxButton.widthAnchor.constraint(equalToConstant: checkBoxButton.frame.size.width),
+                    checkBoxButton.heightAnchor.constraint(equalToConstant: checkBoxButton.frame.size.height),
+                    textView.centerYAnchor.constraint(equalTo: centerYAnchor),
+                    textView.leadingAnchor.constraint(equalTo: checkBoxButton.trailingAnchor, constant: .zero),
+                                       textView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -textViewHorizontalInsets)
+                ]
+            } else {
+                constraintsList = [textView.centerYAnchor.constraint(equalTo: centerYAnchor),
+                                   textView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: textViewHorizontalInsets),
+                                   textView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -textViewHorizontalInsets)]
+            }
+            NSLayoutConstraint.activate(constraintsList)
             setNeedsLayout()
         }
         
@@ -86,6 +120,7 @@ open class EventView: UIView {
             $0.isHidden = event.editedEvent == nil
         }
         drawsShadow = event.editedEvent != nil
+        setupCheckBoxImageIfNeeded(event.isCompleted)
         setNeedsDisplay()
         setNeedsLayout()
     }
@@ -205,6 +240,25 @@ open class EventView: UIView {
             let dx = -spread
             let rect = bounds.insetBy(dx: dx, dy: dx)
             layer.shadowPath = UIBezierPath(rect: rect).cgPath
+        }
+    }
+}
+
+//MARK: - CheckBox related -
+extension EventView {
+    @objc private func didTapCheckBox(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        UIView.transition(with: checkBoxButton, duration: 0.25, options: .transitionFlipFromLeft) {
+            self.setupCheckBoxImageIfNeeded(sender.isSelected)
+        } completion: { (completed) in
+            self.delegate?.didTapCheckBox(on: self, isChecked: sender.isSelected)
+        }
+    }
+    
+    private func setupCheckBoxImageIfNeeded(_ isChecked: Bool) {
+        if let config = configuration, config.shouldIncludeCheckBox {
+            let image = isChecked ? self.checkBoxEnabledImage : self.checkBoxDisabledImage
+            self.checkBoxButton.setImage(image, for: .normal)
         }
     }
 }

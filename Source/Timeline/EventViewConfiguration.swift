@@ -6,7 +6,10 @@ public struct EventViewConfiguration {
                 shouldRoundCorners: Bool,
                 textViewHorizontalInsets: CGFloat = .zero,
                 eventPinBackgroundColor: UIColor = .clear,
-                pinImage: UIImage? = nil) {
+                pinImage: UIImage? = nil,
+                shouldIncludeCheckBox: Bool = false,
+                checkBoxCheckedImage: UIImage? = nil,
+                checkBoxEmptyImage: UIImage? = nil) {
         self.shouldEnableRezising = shouldEnableRezising
         self.shouldRoundCorners = shouldRoundCorners
         if textViewHorizontalInsets != .zero {
@@ -14,6 +17,9 @@ public struct EventViewConfiguration {
         }
         self.pinBackgroundColor = eventPinBackgroundColor
         self.pinImage = pinImage
+        self.shouldIncludeCheckBox = shouldIncludeCheckBox
+        self.checkBoxCheckedImage = checkBoxCheckedImage
+        self.checkBoxEmptyImage = checkBoxEmptyImage
     }
     
     // - Enables ability to resize event view -
@@ -27,5 +33,8 @@ public struct EventViewConfiguration {
         return shouldRoundCorners ? 10.0 : .zero
     }
     var pinImage: UIImage?
+    var shouldIncludeCheckBox: Bool = true
+    var checkBoxCheckedImage: UIImage?
+    var checkBoxEmptyImage: UIImage?
 }
 #endif
