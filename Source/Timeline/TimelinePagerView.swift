@@ -13,9 +13,11 @@ public protocol TimelinePagerViewDelegate: AnyObject {
     
     // Editing
     func timelinePager(timelinePager: TimelinePagerView, didUpdate event: EventDescriptor)
+    func timelinePager(timelinePager: TimelinePagerView, didTapCheckBoxOn eventView: EventView, isChecked: Bool)
 }
 
 public final class TimelinePagerView: UIView, UIGestureRecognizerDelegate, UIScrollViewDelegate, DayViewStateUpdating, UIPageViewControllerDataSource, UIPageViewControllerDelegate, TimelineViewDelegate {
+    
     
     public weak var dataSource: EventDataSource?
     public weak var delegate: TimelinePagerViewDelegate?
@@ -488,6 +490,10 @@ public final class TimelinePagerView: UIView, UIGestureRecognizerDelegate, UIScr
     
     public func timelineView(_ timelineView: TimelineView, didLongPress event: EventView) {
         delegate?.timelinePagerDidLongPressEventView(event)
+    }
+    
+    public func timelineView(_ timelineView: TimelineView, didTapCheckBoxOn event: EventView, isChecked: Bool) {
+        delegate?.timelinePager(timelinePager: self, didTapCheckBoxOn: event, isChecked: isChecked)
     }
 }
 #endif

@@ -5,6 +5,7 @@ import DateToolsSwift
 public protocol DayViewDelegate: AnyObject {
     func dayViewDidSelectEventView(_ eventView: EventView)
     func dayViewDidLongPressEventView(_ eventView: EventView)
+    func dayViewDidTapCheckBox(on eventView: EventView, isChecked: Bool)
     func dayView(dayView: DayView, didTapTimelineAt date: Date)
     func dayView(dayView: DayView, didLongPressTimelineAt date: Date)
     func dayViewDidBeginDragging(dayView: DayView)
@@ -176,6 +177,10 @@ public final class DayView: UIView, TimelinePagerViewDelegate {
     }
     public func timelinePager(timelinePager: TimelinePagerView, didUpdate event: EventDescriptor) {
         delegate?.dayView(dayView: self, didUpdate: event)
+    }
+    
+    public func timelinePager(timelinePager: TimelinePagerView, didTapCheckBoxOn eventView: EventView, isChecked: Bool) {
+        delegate?.dayViewDidTapCheckBox(on: eventView, isChecked: isChecked)
     }
 }
 #endif

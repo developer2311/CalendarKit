@@ -7,6 +7,8 @@ public protocol TimelineViewDelegate: AnyObject {
     func timelineView(_ timelineView: TimelineView, didLongPressAt date: Date)
     func timelineView(_ timelineView: TimelineView, didTap event: EventView)
     func timelineView(_ timelineView: TimelineView, didLongPress event: EventView)
+    func timelineView(_ timelineView: TimelineView, didTapCheckBoxOn event: EventView, isChecked: Bool)
+
 }
 
 public final class TimelineView: UIView {
@@ -446,6 +448,7 @@ public final class TimelineView: UIView {
         clearEventPins()
         for _ in regularLayoutAttributes {
             let newView = pool.dequeue()
+            newView.delegate = self
             if newView.superview == nil {
                 addSubview(newView)
             }
@@ -577,6 +580,13 @@ public final class TimelineView: UIView {
                 setNeedsLayout()
             }
         }
+    }
+}
+
+//MARK: - EventViewDelegate -
+extension TimelineView: EventViewDelegate {
+    public func didTapCheckBox(on eventView: EventView, isChecked: Bool) {
+        delegate?.timelineView(self, didTapCheckBoxOn: eventView, isChecked: isChecked)
     }
 }
 #endif
