@@ -90,9 +90,7 @@ open class EventView: UIView {
             NSLayoutConstraint.activate(constraintsList)
             setNeedsLayout()
         }
-        
-//        layoutPinIfNeeded()
-        
+                
         if shouldEnableRezising {
             for (idx, handle) in eventResizeHandles.enumerated() {
               handle.tag = idx
@@ -120,6 +118,7 @@ open class EventView: UIView {
             $0.isHidden = event.editedEvent == nil
         }
         drawsShadow = event.editedEvent != nil
+        checkBoxButton.isSelected = event.isCompleted
         setupCheckBoxImageIfNeeded(event.isCompleted)
         setNeedsDisplay()
         setNeedsLayout()
@@ -249,7 +248,6 @@ extension EventView {
     @objc private func didTapCheckBox(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
         UIView.transition(with: checkBoxButton, duration: 0.25, options: .transitionFlipFromLeft) {
-            self.setupCheckBoxImageIfNeeded(sender.isSelected)
         } completion: { (completed) in
             self.delegate?.didTapCheckBox(on: self, isChecked: sender.isSelected)
         }
