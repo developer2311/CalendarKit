@@ -61,6 +61,8 @@ open class EventView: UIView {
         
         if shouldRoundCorners && !shouldEnableRezising {
             textView.translatesAutoresizingMaskIntoConstraints = false
+            textView.textContainer.lineBreakMode = .byTruncatingTail
+            textView.textAlignment = .left
             var constraintsList = [NSLayoutConstraint]()
             if let config = configuration, config.shouldIncludeCheckBox {
                 checkBoxButton = UIButton(type: .custom)
@@ -78,9 +80,10 @@ open class EventView: UIView {
                     checkBoxButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: textViewHorizontalInsets),
                     checkBoxButton.widthAnchor.constraint(equalToConstant: checkBoxButton.frame.size.width),
                     checkBoxButton.heightAnchor.constraint(equalToConstant: checkBoxButton.frame.size.height),
+                    textView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor),
                     textView.centerYAnchor.constraint(equalTo: centerYAnchor),
-                    textView.leadingAnchor.constraint(equalTo: checkBoxButton.trailingAnchor, constant: .zero),
-                                       textView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -textViewHorizontalInsets)
+                    textView.leadingAnchor.constraint(equalTo: checkBoxButton.trailingAnchor, constant: -textViewHorizontalInsets/4),
+                    textView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: .zero)
                 ]
             } else {
                 constraintsList = [textView.centerYAnchor.constraint(equalTo: centerYAnchor),
