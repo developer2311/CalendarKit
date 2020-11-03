@@ -533,53 +533,53 @@ public final class TimelineView: UIView {
     }
     
     private func clearEventPins() {
-        for pin in eventPinObjects {
-            pin.imageView.removeFromSuperview()
-        }
-        eventPinObjects.removeAll()
+//        for pin in eventPinObjects {
+//            pin.imageView.removeFromSuperview()
+//        }
+//        eventPinObjects.removeAll()
     }
     
     private func layoutPinIfNeeded(for eventView: EventView) {
         
-        func prepareImageView() -> UIImageView {
-            let imageView = UIImageView(frame: CGRect(x: .zero, y: .zero, width: 20, height: 20))
-            imageView.clipsToBounds = true
-            imageView.contentMode = .scaleAspectFill
-            imageView.layer.cornerRadius = imageView.frame.size.height/2
-            imageView.tintColor = DayView.eventViewsConfiguration?.pinBackgroundColor ?? .yellow
-            imageView.image = DayView.eventViewsConfiguration?.pinImage
-            imageView.sizeToFit()
-            return imageView
-        }
-        
-        if let event = eventView.descriptor, event.isEventPinned {
-            
-            let index = eventPinObjects.firstIndex(where: { (pin) -> Bool in
-                return pin.eventID == event.identifier
-            })
-            
-            if index == nil {
-                let eventPinObject = EventPinObject(eventID: event.identifier, imageView: prepareImageView())
-                if eventPinObject.imageView.superview == nil {
-                    addSubview(eventPinObject.imageView)
-                    eventPinObject.imageView.translatesAutoresizingMaskIntoConstraints = false
-                    NSLayoutConstraint.activate([
-                        eventPinObject.imageView.topAnchor.constraint(equalTo: eventView.topAnchor, constant: -eventPinObject.imageView.frame.size.height/2),
-                        eventPinObject.imageView.trailingAnchor.constraint(equalTo: eventView.trailingAnchor, constant: eventPinObject.imageView.frame.size.width/4)
-                    ])
-                    eventPinObjects.append(eventPinObject)
-                    setNeedsLayout()
-                }
-            }
-        } else if let event = eventView.descriptor, !event.isEventPinned {
-            if let index = eventPinObjects.firstIndex(where: { (pin) -> Bool in
-                return pin.eventID == event.identifier
-            }) {
-                eventPinObjects[index].imageView.removeFromSuperview()
-                eventPinObjects.remove(at: index)
-                setNeedsLayout()
-            }
-        }
+//        func prepareImageView() -> UIImageView {
+//            let imageView = UIImageView(frame: CGRect(x: .zero, y: .zero, width: 20, height: 20))
+//            imageView.clipsToBounds = true
+//            imageView.contentMode = .scaleAspectFill
+//            imageView.layer.cornerRadius = imageView.frame.size.height/2
+//            imageView.tintColor = DayView.eventViewsConfiguration?.pinBackgroundColor ?? .yellow
+//            imageView.image = DayView.eventViewsConfiguration?.pinImage
+//            imageView.sizeToFit()
+//            return imageView
+//        }
+//
+//        if let event = eventView.descriptor, event.isEventPinned {
+//
+//            let index = eventPinObjects.firstIndex(where: { (pin) -> Bool in
+//                return pin.eventID == event.identifier
+//            })
+//
+//            if index == nil {
+//                let eventPinObject = EventPinObject(eventID: event.identifier, imageView: prepareImageView())
+//                if eventPinObject.imageView.superview == nil {
+//                    addSubview(eventPinObject.imageView)
+//                    eventPinObject.imageView.translatesAutoresizingMaskIntoConstraints = false
+//                    NSLayoutConstraint.activate([
+//                        eventPinObject.imageView.topAnchor.constraint(equalTo: eventView.topAnchor, constant: -eventPinObject.imageView.frame.size.height/2),
+//                        eventPinObject.imageView.trailingAnchor.constraint(equalTo: eventView.trailingAnchor, constant: eventPinObject.imageView.frame.size.width/4)
+//                    ])
+//                    eventPinObjects.append(eventPinObject)
+//                    setNeedsLayout()
+//                }
+//            }
+//        } else if let event = eventView.descriptor, !event.isEventPinned {
+//            if let index = eventPinObjects.firstIndex(where: { (pin) -> Bool in
+//                return pin.eventID == event.identifier
+//            }) {
+//                eventPinObjects[index].imageView.removeFromSuperview()
+//                eventPinObjects.remove(at: index)
+//                setNeedsLayout()
+//            }
+//        }
     }
 }
 
