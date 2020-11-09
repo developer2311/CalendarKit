@@ -170,6 +170,8 @@ public final class TimelineView: UIView {
         addGestureRecognizer(tapGestureRecognizer)
     }
     
+    
+    
     // MARK: - Event Handling
     
     @objc private func longPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
@@ -330,7 +332,6 @@ public final class TimelineView: UIView {
         layoutEvents()
         layoutNowLine()
         layoutAllDayEvents()
-        
     }
     
     private func layoutNowLine() {
@@ -560,16 +561,23 @@ public final class TimelineView: UIView {
 
             if index == nil {
                 let eventPinObject = EventPinObject(eventID: event.identifier, imageView: prepareImageView(superView: eventView))
+                eventPinObject.imageView.translatesAutoresizingMaskIntoConstraints = true
                 if eventPinObject.imageView.superview == nil {
                     addSubview(eventPinObject.imageView)
+                    eventPinObject.imageView.center = eventView.center
                     eventPinObject.imageView.frame = CGRect(x: eventView.frame.size.width+35, y: eventView.frame.origin.y-10, width: 20, height: 20)
-                    eventPinObject.imageView.translatesAutoresizingMaskIntoConstraints = false
-                    NSLayoutConstraint.activate([
-                        eventPinObject.imageView.topAnchor.constraint(equalTo: eventView.topAnchor, constant: -eventPinObject.imageView.frame.size.height/2),
-                        eventPinObject.imageView.trailingAnchor.constraint(equalTo: eventView.trailingAnchor, constant: eventPinObject.imageView.frame.size.width/4)
-                    ])
                     eventPinObjects.append(eventPinObject)
+                } else {
+                    eventPinObject.imageView.center = eventView.center
+                    eventPinObject.imageView.frame = CGRect(x: eventView.frame.size.width+35, y: eventView.frame.origin.y-10, width: 20, height: 20)
                 }
+            } else {
+                guard let index = eventPinObjects.firstIndex(where: { (pin) -> Bool in
+                    return pin.eventID == event.identifier
+                }) else {return}
+                let eventPinObject = eventPinObjects[index]
+                eventPinObject.imageView.center = eventView.center
+                eventPinObject.imageView.frame = CGRect(x: eventView.frame.size.width+35, y: eventView.frame.origin.y-10, width: 20, height: 20)
             }
         } else if let event = eventView.descriptor, !event.isEventPinned {
             if let index = eventPinObjects.firstIndex(where: { (pin) -> Bool in
@@ -579,6 +587,7 @@ public final class TimelineView: UIView {
                 eventPinObjects.remove(at: index)
             }
         }
+        
     }
 }
 
