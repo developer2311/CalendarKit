@@ -541,53 +541,53 @@ public final class TimelineView: UIView {
     }
     
     private func layoutPinIfNeeded(for eventView: EventView) {
-        
-        func prepareImageView(superView: UIView) -> UIImageView {
-            let imageView = UIImageView(frame: CGRect(x: eventView.frame.size.width+10, y: eventView.frame.origin.y-10, width: 20, height: 20))
-            imageView.clipsToBounds = true
-            imageView.contentMode = .scaleAspectFill
-            imageView.layer.cornerRadius = imageView.frame.size.height/2
-            imageView.tintColor = DayView.eventViewsConfiguration?.pinBackgroundColor ?? .yellow
-            imageView.image = DayView.eventViewsConfiguration?.pinImage
-            imageView.sizeToFit()
-            return imageView
-        }
-
-        if let event = eventView.descriptor, event.isEventPinned {
-
-            let index = eventPinObjects.firstIndex(where: { (pin) -> Bool in
-                return pin.eventID == event.identifier
-            })
-
-            if index == nil {
-                let eventPinObject = EventPinObject(eventID: event.identifier, imageView: prepareImageView(superView: eventView))
-                eventPinObject.imageView.translatesAutoresizingMaskIntoConstraints = true
-                if eventPinObject.imageView.superview == nil {
-                    addSubview(eventPinObject.imageView)
-                    eventPinObject.imageView.center = eventView.center
-                    eventPinObject.imageView.frame = CGRect(x: eventView.frame.size.width+35, y: eventView.frame.origin.y-10, width: 20, height: 20)
-                    eventPinObjects.append(eventPinObject)
-                } else {
-                    eventPinObject.imageView.center = eventView.center
-                    eventPinObject.imageView.frame = CGRect(x: eventView.frame.size.width+35, y: eventView.frame.origin.y-10, width: 20, height: 20)
-                }
-            } else {
-                guard let index = eventPinObjects.firstIndex(where: { (pin) -> Bool in
-                    return pin.eventID == event.identifier
-                }) else {return}
-                let eventPinObject = eventPinObjects[index]
-                eventPinObject.imageView.center = eventView.center
-                eventPinObject.imageView.frame = CGRect(x: eventView.frame.size.width+35, y: eventView.frame.origin.y-10, width: 20, height: 20)
-            }
-        } else if let event = eventView.descriptor, !event.isEventPinned {
-            if let index = eventPinObjects.firstIndex(where: { (pin) -> Bool in
-                return pin.eventID == event.identifier
-            }) {
-                eventPinObjects[index].imageView.removeFromSuperview()
-                eventPinObjects.remove(at: index)
-            }
-        }
-        
+//
+//        func prepareImageView(superView: UIView) -> UIImageView {
+//            let imageView = UIImageView(frame: CGRect(x: eventView.frame.size.width+10, y: eventView.frame.origin.y-10, width: 20, height: 20))
+//            imageView.clipsToBounds = true
+//            imageView.contentMode = .scaleAspectFill
+//            imageView.layer.cornerRadius = imageView.frame.size.height/2
+//            imageView.tintColor = DayView.eventViewsConfiguration?.pinBackgroundColor ?? .yellow
+//            imageView.image = DayView.eventViewsConfiguration?.pinImage
+//            imageView.sizeToFit()
+//            return imageView
+//        }
+//
+//        if let event = eventView.descriptor, event.isEventPinned {
+//
+//            let index = eventPinObjects.firstIndex(where: { (pin) -> Bool in
+//                return pin.eventID == event.identifier
+//            })
+//
+//            if index == nil {
+//                let eventPinObject = EventPinObject(eventID: event.identifier, imageView: prepareImageView(superView: eventView))
+//                eventPinObject.imageView.translatesAutoresizingMaskIntoConstraints = true
+//                if eventPinObject.imageView.superview == nil {
+//                    addSubview(eventPinObject.imageView)
+//                    eventPinObject.imageView.center = eventView.center
+//                    eventPinObject.imageView.frame = CGRect(x: eventView.frame.size.width+35, y: eventView.frame.origin.y-10, width: 20, height: 20)
+//                    eventPinObjects.append(eventPinObject)
+//                } else {
+//                    eventPinObject.imageView.center = eventView.center
+//                    eventPinObject.imageView.frame = CGRect(x: eventView.frame.size.width+35, y: eventView.frame.origin.y-10, width: 20, height: 20)
+//                }
+//            } else {
+//                guard let index = eventPinObjects.firstIndex(where: { (pin) -> Bool in
+//                    return pin.eventID == event.identifier
+//                }) else {return}
+//                let eventPinObject = eventPinObjects[index]
+//                eventPinObject.imageView.center = eventView.center
+//                eventPinObject.imageView.frame = CGRect(x: eventView.frame.size.width+35, y: eventView.frame.origin.y-10, width: 20, height: 20)
+//            }
+//        } else if let event = eventView.descriptor, !event.isEventPinned {
+//            if let index = eventPinObjects.firstIndex(where: { (pin) -> Bool in
+//                return pin.eventID == event.identifier
+//            }) {
+//                eventPinObjects[index].imageView.removeFromSuperview()
+//                eventPinObjects.remove(at: index)
+//            }
+//        }
+//
     }
 }
 
